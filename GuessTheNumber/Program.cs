@@ -1,49 +1,58 @@
-using System;
+﻿using System;
 
 class Program
 {
-    static void Main (string[] args)
+    static void Main(string[] args)
     {
-        string[] cuvinteDeIesire = { "exit", "ex", "stop" };
+        // Keywords for closing the application
+        string[] exitWords = { "exit", "ex", "stop" };
+
+        // Generate a random number between 1 and 100
         Random random = new Random();
-        int numarGenerat = random.Next(1, 101);
+        int generatedNumber = random.Next(1, 101);
 
-        Console.WriteLine("Aplicatia a generat un numar aleatoriu.");
-        Console.WriteLine("Incearca sa-l ghicesti si castiga!");
+        Console.WriteLine("The application has generated a random number.");
+        Console.WriteLine("Try to guess it and win!");
 
-        while (true) {
-            Console.Write("Introdu un numar intre 1 si 100: ");
+        while (true)
+        {
+            // Prompt the user to enter a number
+            Console.Write("Enter a number between 1 and 100: ");
             string input = Console.ReadLine()!.ToLower();
 
-            if (Array.Exists(cuvinteDeIesire, element => element == input))
+            // Check if the user wants to exit
+            if (Array.Exists(exitWords, element => element == input))
             {
-                Console.WriteLine("Aplicatia se va inchide.");
+                Console.WriteLine("The application will close.");
                 break;
             }
 
-            bool numarValid = int.TryParse(input, out int numar);
+            // Validate the input
+            bool isValidNumber = int.TryParse(input, out int userNumber);
 
-            if (!numarValid) {
-                Console.WriteLine("Nu ai introdus un numar valid.");
+            // If the input is not a valid number, ask the user to try again
+            if (!isValidNumber)
+            {
+                Console.WriteLine("You did not enter a valid number.");
                 continue;
             }
 
-            if (numar == numarGenerat)
+            // Compare the entered number with the generated number
+            if (userNumber == generatedNumber)
             {
-                Console.WriteLine("Felicitari! Ai gasit numarul!");
-                Console.WriteLine("Apasa orice tasta pentru a iesi...");
-                Console.ReadKey(); // Așteaptă ca utilizatorul să apese o tastă
-                break;
+                Console.WriteLine("Congratulations! You guessed the number!");
+                break; // End the program if the number is correct
             }
 
-            Console.WriteLine("Nu ai ghicit!");
-
-            if (numar < numarGenerat) {
-                Console.WriteLine("Numarul introdus este mai mic decat numarul generat.");
+            // Provide feedback to the user if the number was not guessed
+            Console.WriteLine("You didn't guess it!");
+            if (userNumber < generatedNumber)
+            {
+                Console.WriteLine("The number you entered is smaller than the generated number.");
             }
             else
             {
-                Console.WriteLine("Numarul introdus este mai mare decat numarul generat.");
+                Console.WriteLine("The number you entered is larger than the generated number.");
             }
         }
     }
